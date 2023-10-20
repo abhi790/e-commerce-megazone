@@ -1,0 +1,15 @@
+
+.search label{
+    font-size: 2rem;
+    margin-right: 1rem;
+}
+.search input{
+    margin: 0 auto;
+    height: 30px;
+    border-radius: 1rem;
+    padding: 2rem;
+    font-size: 2rem;
+    display: block;
+    font-weight: 500;
+    color: #727272;
+}
