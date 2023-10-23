@@ -1,14 +1,16 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { useParams,Link } from 'react-router-dom';
 import {linkStyle} from '../Style/buttonStyle';
-const ViewProduct = ({products, cartItems,setCartItems,handleAddToCart}) => {
+import { viewProductContext } from '../context/appContext';
+const ViewProduct = () => {
+    const {isProductPresent,showGotoCart, showAddToCart,products, handleAddToCart} = useContext(viewProductContext)
     const {id} = useParams();
     const product = products.find(product => product.id == id);
 
     const showProducts = () => {
         const result = <>
             <div className="container" >
-                
+
         <div className="details" key={Math.random()}>
             <p id="name">{product.id} - {product.name}</p>
             <p id="s-desc">{product.short_desc}</p>
@@ -18,8 +20,9 @@ const ViewProduct = ({products, cartItems,setCartItems,handleAddToCart}) => {
                 <Link style={linkStyle} to='/'>
                     <button >Back</button>
                 </Link>
-                <button onClick={() => handleAddToCart(product.id)}>Add To Cart</button>
+                {isProductPresent(product) ? showGotoCart() : showAddToCart(product.id)}
             </div>
+                
         </div>
         <div className="image">
           <img src={product.img_src} alt="Product image" />
@@ -27,9 +30,6 @@ const ViewProduct = ({products, cartItems,setCartItems,handleAddToCart}) => {
       </div>
         </>;
         return result;
-    }
-    const showHeading = () => {
-        return <h1>Detail page for the product with id : {product.id}</h1>
     }
 
     const noProductFound = ()=>{
@@ -39,7 +39,6 @@ const ViewProduct = ({products, cartItems,setCartItems,handleAddToCart}) => {
 
   return (
     <div>
-        {product ? showHeading() : null}
         {product ? showProducts() : noProductFound()}
     </div>
   )

@@ -1,29 +1,28 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import SearchBox from './SearchBox';
 import '../Style/ProductListing.css';
 import SortBy from './SortBy';
 import SaveForLater from './SaveForLater';
-const Cart = ({cartItems, setCartItems,dynamicsort,wishList,setWishList}) => {
+import {cartContext} from '../context/appContext';
+const Cart = () => {
   const [sortBy, setSortBy] = useState('id');
+  const {cartitems, setCartItems,dynamicsort,wishList, setWishList} = useContext(cartContext);
   useEffect(() =>  {
-    setCartItems(sortList(cartItems,sortBy));
+    setCartItems(sortList(cartitems,sortBy));
   }, []);
 
 
   const handleRemoveItem = (id) => {
     //filtered products except selected item to remove
-    const _filteredList = cartItems.filter(product => product.id !== id);
+    const _filteredList = cartitems.filter(product => product.id !== id);
     setCartItems(_filteredList);
-    console.log(`Inside handleRemoveItem`);
   }
 
   const handleBuyNow = (id) => {
-    // console.log(`Item with id : ${id} is purchased`);
-    
-      let product = cartItems.find(item => item.id == id);
+    let product = cartitems.find(item => item.id == id);
       
       if(window.confirm(`Are you sure you want to buy ${product.name} ?`)){
-        const products = cartItems.filter(item => item.id !== id);
+        const products = cartitems.filter(item => item.id !== id);
         alert(`Buy Succeed`);
         setCartItems(products);
       }
@@ -32,8 +31,8 @@ const Cart = ({cartItems, setCartItems,dynamicsort,wishList,setWishList}) => {
     }
 
   const handleSaveForLater = (id) => {
-    const _finalCartItems = cartItems.filter(product => product.id !== id);
-    const _productToSaveForLater = cartItems.find(product => product.id == id);
+    const _finalCartItems = cartitems.filter(product => product.id !== id);
+    const _productToSaveForLater = cartitems.find(product => product.id == id);
     setCartItems(_finalCartItems);
     const _updatedSaveForLater = [...wishList,_productToSaveForLater];
     setWishList(_updatedSaveForLater);
@@ -42,13 +41,10 @@ const Cart = ({cartItems, setCartItems,dynamicsort,wishList,setWishList}) => {
   const handleCheckout = () => {
 
     
-    if(cartItems.length !== 0){
-      let decision = false;
+    if(cartitems.length !== 0){
       if(window.confirm("Are you sure you want to checkout all product?")){
-        decision = true;
         alert(`checkout completed`);
         setCartItems([]);
-
       }
       else
       alert(`Products cancelled successfully`)
@@ -62,7 +58,7 @@ const Cart = ({cartItems, setCartItems,dynamicsort,wishList,setWishList}) => {
     const result = 
     
     <div className="container">
-      {cartItems.map(product => showProduct(product))}
+      {cartitems.map(product => showProduct(product))}
     </div>
     return result;
   }
@@ -94,24 +90,24 @@ const Cart = ({cartItems, setCartItems,dynamicsort,wishList,setWishList}) => {
 
   const handleSortByChange = (e) => {
     setSortBy(e.target.value);
-    setCartItems(sortList(cartItems,e.target.value));
+    setCartItems(sortList(cartitems,e.target.value));
   }
 
-  const sortList = (cartItems, property) => {
+  const sortList = (cartitems, property) => {
     if(property.includes('1')){
       let sortDec = 'desc';
       //to chop the last character 1, it was just only to indicate that it is sortByDecreasing
       property = property.slice(0,property.length -1);
-      return cartItems.sort(dynamicsort(property,sortDec));
+      return cartitems.sort(dynamicsort(property,sortDec));
     }
-    return cartItems.sort(dynamicsort(property));
+    return cartitems.sort(dynamicsort(property));
    
 
   }
 
   const calculatePrice = () => {
     let count = 0;
-    cartItems.map(item => {
+    cartitems.map(item => {
       count += item.price;
     })
 
@@ -124,8 +120,8 @@ const Cart = ({cartItems, setCartItems,dynamicsort,wishList,setWishList}) => {
     const _finalWishList = wishList.filter(product => product.id !== id);
 
     setWishList(_finalWishList);
-    setCartItems((cartItems) => [...cartItems, _moveToCartItem]);
-    // setCartItems(sortList(cartItems,sortBy));
+    setCartItems((cartitems) => [...cartitems, _moveToCartItem]);
+    // setcartitems(sortList(cartitems,sortBy));
   }
 
   const handleDelete = (id) => {
@@ -136,7 +132,6 @@ const Cart = ({cartItems, setCartItems,dynamicsort,wishList,setWishList}) => {
   }
 
   const showSaveForLater = () => {
-    console.log(`Inside showSaveForLater`);
     const result = wishList.map((product) => {
       return (
         <>
@@ -160,9 +155,9 @@ const Cart = ({cartItems, setCartItems,dynamicsort,wishList,setWishList}) => {
         <div className="cart-list">
           <div className="cart-container">
               <h1 style={{textAlign:'center',marginBottom:'2rem',fontSize:'3rem',textTransform:'uppercase'}}>Cart</h1>
-              {<p className="item-count">{cartItems.length} {cartItems.length === 1 || cartItems.length === 0 ? "Item" : "Items"} </p>}
+              {<p className="item-count">{cartitems.length} {cartitems.length === 1 || cartitems.length === 0 ? "Item" : "Items"} </p>}
               <SortBy handleSortByChange={handleSortByChange}/>
-              {cartItems.length !== 0 ? showAllItems() : noProductFound("Cart")}
+              {cartitems.length !== 0 ? showAllItems() : noProductFound("Cart")}
               <div className="subtotal-container">
                 <p id='subtotal'>Sub Total : <span >&#x20B9; {calculatePrice()} </span> </p>
                 <button id='checkout' onClick={handleCheckout}>Checkout</button>

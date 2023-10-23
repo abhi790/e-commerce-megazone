@@ -1,10 +1,35 @@
-import React from "react";
+import React, { useContext } from "react";
 import "../Style/Card.css";
 import {Link} from 'react-router-dom';
 import {linkStyle} from "../Style/buttonStyle";
-const Card = ({ product,handleAddToCart }) => {
+import { productsContext } from "../context/appContext";
+const Card = ({ product,handleAddToCart,cartitems }) => {
+  const {isProductPresent,showAddToCart,showGotoCart} = useContext(productsContext);
+  // const showAddToCart = (id) => {
+  //   return (
+  //     <button onClick={() => handleAddToCart(id)}>Add To Cart</button>
+  //   )
+  // }
+
+  // // const isProductPresent = (product, list) => {
+  // //   console.log(`Inside isProductPresent function`);
+  // //   if(list.find(item => item.id == product.id)){
+  // //     return true;
+  // //   }
+  // //   return false;
+  // // }
+  
+  // const showGotoCart = () => {
+  //   return (
+  //   <Link style={linkStyle} to={`/cart`}>
+  //     <button style={{marginLeft:'1.5rem',backgroundColor:"green",color:"white"}}>Go to Cart</button>
+  //   </Link>
+  //   )
+  // }
+
+
   return (
-    <>
+    <> 
       
       <img src={product.img_src} alt="Product image" />
       <div className="details">
@@ -16,7 +41,7 @@ const Card = ({ product,handleAddToCart }) => {
           <Link style={linkStyle} to={`/details/${product.id}`}>
               <button >View Item</button>
           </Link>
-          <button onClick={() => handleAddToCart(product.id)}>Add To Cart</button>
+         {isProductPresent(product) ? showGotoCart() : showAddToCart(product.id)}
 
         </div>
       </div>
