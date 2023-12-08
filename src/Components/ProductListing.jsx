@@ -8,11 +8,9 @@ import { productsContext } from "../context/appContext";
 const ProductListing = () => {
   const {handleAddToCart,products,dynamicsort,cartitems} = useContext(productsContext);
   
-  // console.log(`productContext`,useContext(productsContext));
   const [sortBy, setSortBy] = useState("id");
   const [query, setQuery]  = useState('');
   const [filteredProduct, setFilteredProduct] = useState(products);
-  // console.log(`1st statement`);
 
   useEffect(() =>  {
     const _filteredProduct = products.filter(product => product.name.toLowerCase().includes(query));
@@ -21,7 +19,6 @@ const ProductListing = () => {
     // console.log(`sort by `, sortBy);
   }, [query,sortBy]);
 
-  // console.log(`2nd statement`);
 
   const handleSearchChange = (e) => {
     setQuery(e.target.value);
@@ -31,7 +28,7 @@ const ProductListing = () => {
     if(property.includes('1')){
       let sortDec = 'desc';
       //to chop the last character 1, it was just only to indicate that it is sortByDecreasing
-      property = property.slice(0,sortBy.length -1);
+      property = property.slice(0,property.length -1);
       return _filteredProduct.sort(dynamicsort(property,sortDec));
     }
     return _filteredProduct.sort(dynamicsort(property));

@@ -31,7 +31,7 @@ const Card = ({ product,handleAddToCart,cartitems }) => {
   return (
     <> 
       
-      <img src={product.img_src} alt="Product image" />
+      <img src={product.img_src} />
       <div className="details">
         <p id="name">{product.name}</p>
         <p id="s-desc">{product.short_desc}</p>

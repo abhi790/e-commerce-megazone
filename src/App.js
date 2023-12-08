@@ -16,7 +16,7 @@ function App() {
   const [cartitems, setCartItems] = useState([]);
   const [wishList, setWishList] = useState([]);
   const handleAddToCart = (id) => {
-    const productToAdd = products.find(product => product.id == id);
+    const productToAdd = products.find(product => product.id === id);
 
     //add the items anyhow
     setCartItems([...cartitems, productToAdd]);
@@ -62,7 +62,7 @@ const showAddToCart = (id) => {
 
 const isProductPresent = (product) => {
   // console.log(`Inside isProductPresent function`);
-  if(cartitems.find(item => item.id == product.id)){
+  if(cartitems.find(item => item.id === product.id)){
     return true;
   }
   return false;

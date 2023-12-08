@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react'
-import SearchBox from './SearchBox';
 import '../Style/ProductListing.css';
 import SortBy from './SortBy';
 import SaveForLater from './SaveForLater';
@@ -10,7 +9,7 @@ const Cart = () => {
   useEffect(() =>  {
     setCartItems(sortList(cartitems,sortBy));
   }, []);
-
+ 
 
   const handleRemoveItem = (id) => {
     //filtered products except selected item to remove
@@ -19,7 +18,7 @@ const Cart = () => {
   }
 
   const handleBuyNow = (id) => {
-    let product = cartitems.find(item => item.id == id);
+    let product = cartitems.find(item => item.id === id);
       
       if(window.confirm(`Are you sure you want to buy ${product.name} ?`)){
         const products = cartitems.filter(item => item.id !== id);
@@ -32,7 +31,7 @@ const Cart = () => {
 
   const handleSaveForLater = (id) => {
     const _finalCartItems = cartitems.filter(product => product.id !== id);
-    const _productToSaveForLater = cartitems.find(product => product.id == id);
+    const _productToSaveForLater = cartitems.find(product => product.id === id);
     setCartItems(_finalCartItems);
     const _updatedSaveForLater = [...wishList,_productToSaveForLater];
     setWishList(_updatedSaveForLater);
@@ -70,9 +69,9 @@ const Cart = () => {
   const showProduct = (product) => {
     const result = <>
       <div className="card">
-      <img src={product.img_src} alt="Product image" />
+      <img src={product.img_src}  />
       <div className="details">
-        <p id="name">{product.id} - {product.name}</p>
+        <p id="name">{product.name}</p>
         <p id="s-desc">{product.short_desc}</p>
         <p id="l-desc">{product.long_desc}</p>
         <p id="price">Cost : <span >&#x20B9; {product.price} </span></p>
@@ -107,16 +106,14 @@ const Cart = () => {
 
   const calculatePrice = () => {
     let count = 0;
-    cartitems.map(item => {
-      count += item.price;
-    })
+    cartitems.map(item => count += item.price)
 
     return count;
   }
 
   const handleMoveToCart = (id) => {
     //item to move
-    const _moveToCartItem = wishList.find(product => product.id == id);
+    const _moveToCartItem = wishList.find(product => product.id === id);
     const _finalWishList = wishList.filter(product => product.id !== id);
 
     setWishList(_finalWishList);
@@ -125,7 +122,7 @@ const Cart = () => {
   }
 
   const handleDelete = (id) => {
-    const _itemToDelete = wishList.find(product => product.id == id);
+    const _itemToDelete = wishList.find(product => product.id === id);
     alert(`Are you sure want to delete ${_itemToDelete.name}`);
     const _finalWishList = wishList.filter(product => product.id !== id);
     setWishList(_finalWishList);

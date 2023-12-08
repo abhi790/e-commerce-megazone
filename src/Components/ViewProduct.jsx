@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext} from 'react';
 import { useParams,Link } from 'react-router-dom';
 import {linkStyle} from '../Style/buttonStyle';
 import { viewProductContext } from '../context/appContext';
