@@ -9,7 +9,7 @@ const Cart = () => {
   useEffect(() =>  {
     setCartItems(sortList(cartitems,sortBy));
   }, []);
- 
+
 
   const handleRemoveItem = (id) => {
     //filtered products except selected item to remove
@@ -19,7 +19,7 @@ const Cart = () => {
 
   const handleBuyNow = (id) => {
     let product = cartitems.find(item => item.id === id);
-      
+
       if(window.confirm(`Are you sure you want to buy ${product.name} ?`)){
         const products = cartitems.filter(item => item.id !== id);
         alert(`Buy Succeed`);
@@ -69,7 +69,7 @@ const Cart = () => {
   const showProduct = (product) => {
     const result = <>
       <div className="card">
-      <img src={product.img_src}  />
+      <img src={product.img_src} alt='' />
       <div className="details">
         <p id="name">{product.name}</p>
         <p id="s-desc">{product.short_desc}</p>
